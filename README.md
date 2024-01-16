@@ -399,9 +399,24 @@
 ![메인페이지 (1)](https://github.com/oals/portfolioDebateBoard/assets/136543676/f6b97541-a254-400a-884e-b543b0c28dc8)
 
 
+<br>
+<br>
+
+<details>
+ <summary> 메인 페이지 플로우 차트
+
+ </summary> 
+ 
+![메인페이지 플로우차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/c202ec69-c219-4e47-b5da-ee431b6883f2)
+
+</details>
+
+
+
 <UL>
   <Li>관심 있는 게시판으로 바로 이동할 수 있습니다. </Li>
   <LI>최신 글들을 카테고리 관계 없이 확인 할 수 있도록 설계 했습니다.</LI>
+  <LI>최신 글 클릭 시 해당 포스트 페이지로 이동됩니다.</LI>
 </UL>
 
 
@@ -430,6 +445,8 @@
  
  </summary> 
  
+  ![DEBATE게시판 플로우차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/3442ed73-e5ea-41c0-847d-21241bca8844)
+
 
 </details>
 
@@ -450,8 +467,8 @@
 
 <UL>
   <LI>카테고리 탭을 누르면 해당 게시판으로 이동됩니다. </LI>
-  <LI>최근 참여한 게시글, 인기 게시글, 북마크한 게시글을 확인 할 수 있습니다.  </LI>
-  <LI>현재 진행 중인 게시글과 종료된 게시글을 각각 확인 할 수 있습니다. </LI>
+  <LI>최근 참여한 분쟁 게시글, 인기 게시글, 북마크한 게시글을 확인 할 수 있습니다.  </LI>
+  <LI>현재 진행 중인 분쟁 게시글과 종료된 분쟁 게시글을 각각 확인 할 수 있습니다. </LI>
   <LI>카테고리 탭의 현재 인기글을 상단에서 확인 할 수 있습니다. </LI>
 </UL>
 
@@ -473,7 +490,9 @@
  <summary> 
  검색 플로우 차트
  </summary> 
- 
+  
+ ![검색 플로우차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/499cf52e-784e-4d11-848f-a9b3678678fe)
+
 </details>
 
 
@@ -627,6 +646,44 @@
 
 
 
+
+<h3>스레드</h3>
+<br>
+
+<br>
+<br>
+<details>
+ <summary> 스레드 플로우 차트
+ 
+ </summary> 
+ 
+
+</details>
+
+
+<details>
+ <summary> 스레드 Service 코드
+ 
+ </summary> 
+ 
+
+
+
+
+</details>
+
+
+<UL>
+  <LI>다중 스레드를 사용하여 1분 간격으로 남은 이용 시간이 업데이트 되도록 구현했습니다. </LI>
+ <LI>남은 이용 시간이 00:00분이 되었을 때 스레드가 종료되도록 구현했습니다.</LI>
+ <LI>스레드가 종료될 때 A와 B의 득표 수를 비교해 승패를 구분 짓도록 구현했습니다.</LI>
+</UL>
+
+
+<br>
+<br>
+
+
 <h3>포스트 (투표 종료)</h3>
 <br>
 
@@ -664,42 +721,6 @@
 <br>
 <br>
 
-
-<h3>스레드</h3>
-<br>
-
-<br>
-<br>
-<details>
- <summary> 스레드 플로우 차트
- 
- </summary> 
- 
-
-</details>
-
-
-<details>
- <summary> 스레드 Service 코드
- 
- </summary> 
- 
-
-
-
-
-</details>
-
-
-<UL>
-  <LI>다중 스레드를 사용하여 1분 간격으로 남은 이용 시간이 업데이트 되도록 구현했습니다. </LI>
- <LI>남은 이용 시간이 00:00분이 되었을 때 스레드가 종료되도록 구현했습니다.</LI>
- <LI>스레드가 종료될 때 A와 B의 득표 수를 비교해 승패를 구분 짓도록 구현했습니다.</LI>
-</UL>
-
-
-<br>
-<br>
 
 
 <h3>포스트 수정</h3>
