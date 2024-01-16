@@ -390,6 +390,419 @@
 
 <hr>
 
+<h3>메인 페이지</h3>
+<br>
+<BR>
+
+
+
+![메인페이지 (1)](https://github.com/oals/portfolioDebateBoard/assets/136543676/f6b97541-a254-400a-884e-b543b0c28dc8)
+
+
+<UL>
+  <LI>작성 되는 최신 글들을 카테고리 관계 없이 확인 할 수 있도록 설계 했습니다.</LI>
+</UL>
+
+
+
+
+
+
+
+
+
+
+<h3>분쟁 게시판</h3>
+<br>
+
+
+![board페이지](https://github.com/oals/portfolioDebateBoard/assets/136543676/0608b9d2-1085-4ec1-9112-561b99fafbb6)
+
+
+
+<br>
+<br>
+
+<details>
+ <summary> 분쟁 게시판 플로우 차트
+ 
+ </summary> 
+ 
+
+</details>
+
+
+
+<details>
+ <summary> 분쟁 게시판 Service 코드
+ 
+ </summary> 
+
+
+
+</details>
+
+
+
+
+
+<UL>
+  <LI>ㅁㄴㄻㄴㄹ </LI>
+
+</UL>
+
+
+<br>
+<br>
+
+
+<h3>검색</h3>
+<br>
+
+![검색](https://github.com/oals/portfolioDebateBoard/assets/136543676/1361ac8c-0274-4acf-a19c-cc19e18aa327)
+
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 검색 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+ 검색 Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+<h3>포스트 작성</h3>
+<br>
+
+<img src='https://github.com/oals/portfolioDebateBoard/assets/136543676/018a5c4c-b570-4513-ac06-5a12b89623a4' width='1000px'>
+
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 포스트 작성 플로우 차트
+ </summary> 
+
+
+ 
+</details>
+
+
+<details> 
+ <summary> 
+ 포스트 Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+
+
+<h3>포스트</h3>
+<br>
+
+![post페이지](https://github.com/oals/portfolioDebateBoard/assets/136543676/594c3148-4681-4753-b72c-e728d1cfefc7)
+
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 포스트 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+ 포스트 Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+
+<h3>포스트 (투표 종료)</h3>
+<br>
+
+![분쟁종료board페이지](https://github.com/oals/portfolioDebateBoard/assets/136543676/cb4d9374-a8de-4d0c-bd26-d0367fc9950c)
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 포스트 (투표 종료) 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+  포스트 (투표 종료) Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+<h3>스레드</h3>
+<br>
+
+<br>
+<br>
+<details>
+ <summary> 스레드 플로우 차트
+ 
+ </summary> 
+ 
+
+</details>
+
+
+<details>
+ <summary> 스레드 Service 코드
+ 
+ </summary> 
+ 
+
+
+
+
+</details>
+
+
+<UL>
+  <LI>다중 스레드를 사용하여 1분 간격으로 남은 이용 시간이 업데이트 되도록 구현했습니다. </LI>
+ <LI>남은 이용 시간이 00:40분 보다 작을 때만 이용 시간 연장 기능이 가능하도록 구현했습니다.</LI>
+ <LI>1인 1좌석을 사용 할 수 있도록 현재 사용 중인 좌석 엔티티를 생성하여 중복 좌석을 방지하였습니다.</LI>
+</UL>
+
+
+<br>
+<br>
+
+
+<h3>댓글</h3>
+<br>
+
+![댓글-작성-공감-삭제](https://github.com/oals/portfolioDebateBoard/assets/136543676/c127058c-29a1-492a-8cd9-1ab6529f4119)
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 댓글 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+ 댓글 Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+
+
+
+<h3>카테고리</h3>
+<br>
+
+![카테고리별-게시판](https://github.com/oals/portfolioDebateBoard/assets/136543676/ea345b91-c59d-4be1-af44-71471815cbfb)
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 카테고리 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+ 카테고리 Service 
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+
+<h3>마이 페이지</h3>
+<br>
+
+![마이페이지](https://github.com/oals/portfolioDebateBoard/assets/136543676/fab15567-44f8-4665-8634-83b7fef38ab8)
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 마이페이지 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+ 마이페이지 Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+<h3>북마크</h3>
+<br>
+
+![마이페이지-북마크-삭제](https://github.com/oals/portfolioDebateBoard/assets/136543676/3dc6fad1-6405-40ce-b4a9-dd498df86c5f)
+
+
+<br>
+<br>
+
+<details>
+ <summary> 
+ 북마크 플로우 차트
+ </summary> 
+ 
+</details>
+
+
+<details>
+ <summary> 
+ 북마크 Service
+ </summary> 
+ 
+
+
+
+    
+</details>
+
+
+<UL>
+  <LI></LI>
+
+</UL>
+
+<br>
+<br>
+
+
+
 <h3>회원가입&로그인</h3>
 <br>
 
@@ -414,194 +827,6 @@
 
 <br>
 <br>
-
-
-
-
-<h3>학습실</h3>
-<br>
-
-
-<br>
-<br>
-
-<details>
- <summary> 학습실 플로우 차트
- 
- </summary> 
- 
-
-</details>
-
-
-
-<details>
- <summary> 학습실 Service 코드
- 
- </summary> 
-
-
-
-</details>
-
-
-
-<details>
-
- <summary> 학습실 스레드 코드
- 
- </summary> 
-
-
-   
-
-</details>
-
-
-<UL>
-  <LI>다중 스레드를 사용하여 1분 간격으로 남은 이용 시간이 업데이트 되도록 구현했습니다. </LI>
- <LI>남은 이용 시간이 00:40분 보다 작을 때만 이용 시간 연장 기능이 가능하도록 구현했습니다.</LI>
- <LI>1인 1좌석을 사용 할 수 있도록 현재 사용 중인 좌석 엔티티를 생성하여 중복 좌석을 방지하였습니다.</LI>
-</UL>
-
-
-<br>
-<br>
-
-
-<h3>도서 대여</h3>
-<br>
-
-<br>
-<br>
-<details>
- <summary> 도서 대여 플로우 차트
- 
- </summary> 
- 
-
-</details>
-
-
-<details>
- <summary> 도서 대여 Service 코드
- 
- </summary> 
- 
-
-
-
-
-</details>
-
-
-<UL>
-  <LI>도서 검색 시 알라딘 도서 API를 통해 검색 타입 별로 도서 정보를 받아와 뿌려주도록 구현했습니다.</LI>
- <LI>대여 도서는 마이페이지에서 확인 할 수 있도록 구현했습니다.</LI>
- <LI>최대 8권으로 대여를 제한하고 있고 중복 도서는 대여 불가능 하도록 구현했습니다.</LI>
- <LI>반납 신청 -> 관리자 페이지의 반납 신청 도서로 등록 -> 관리자의 반납 완료 처리 -> 반납 완료 도서로 등록</LI>
- 
-</UL>
-
-<br>
-<br>
-
-
-<h3>관심 도서</h3>
-<br>
-
-
-<br>
-<br>
-
-<details>
- <summary> 관심 도서 플로우 차트
- 
- </summary> 
- 
-</details>
-
-
-<details>
- <summary> 관심 도서 Service 코드
- 
- </summary> 
- 
-
-
-
-    
-</details>
-
-
-<UL>
-  <LI>관심 도서를 중복으로 등록 할 수 없도록 구현 했습니다.</LI>
- <LI>관심 도서로 등록된 도서는 마이페이지에서 확인 할 수 있습니다.</LI>
- <LI>마이페이지에서 관심 도서를 대여 할 시 관심 도서 목록에서 삭제되고 대여 도서 목록에 등록되도록 구현했습니다.</LI>
-</UL>
-
-<br>
-<br>
-
-
-
-<h3>희망 도서 신청</h3>
-<br>
-
-<br>
-<br>
-
-
-<details>
- <summary> 희망 도서 신청 플로우 차트
- 
- </summary> 
- 
-
-</details>
-
-
-<details>
- <summary> 희망 도서 Service 코드
- 
- </summary> 
- 
-
-
-</details>
-
-<UL>
-  <LI>희망 도서를 중복으로 신청 할 수 없도록 구현했습니다.</LI>
- <LI>희망 도서 신청 시 관리자 페이지의 희망 도서 신청 목록에서 확인 할 수 있도록 구현했습니다.</LI>
-</UL>
-
-
-<br>
-<br>
-
-
-
-
-<h3>관리자 페이지</h3>
-<br>
-
-
-<br>
-<br>
-
-<details>
- <summary> 관리자 페이지 플로우 차트
- 
- </summary> 
- 
-</details>
-
-<UL>
-  <LI>관리자 페이지에서 반납 신청 된 도서를 확인 할 수 있고 반납 완료 처리를 할 수 있도록 구현했습니다.</LI>
- <LI>희망 신청된 도서를 확인 할 수 있습니다.</LI>
-</UL>
-
-
 
 # 프로젝트를 통해 느낀 점과 소감
 
