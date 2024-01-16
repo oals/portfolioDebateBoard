@@ -25,10 +25,11 @@
 ![js](https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white)
 ![js](https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![js](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
-
+![js](https://img.shields.io/badge/React-0769Ac?style=for-the-badge&logo=React&logoColor=white)
 # E-R 다이어그램
 
 
+![DebateERD](https://github.com/oals/portfolioDebateBoard/assets/136543676/64a7db24-534f-419c-a654-b51fad2eb7bf)
 
 
 # 핵심 기능 및 페이지 소개
