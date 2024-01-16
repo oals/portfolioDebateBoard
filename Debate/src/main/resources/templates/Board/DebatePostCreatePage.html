@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<link href="../../static/bootstrap/css/bootstrap.min.css"
+      th:href="@{/bootstrap/css/bootstrap.min.css}"  rel="stylesheet" >
+<script src="../../static/bootstrap/js/bootstrap.bundle.min.js"
+        th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+
+
+<style>
+
+.EventBtn {
+  transition: transform 0.3s ease;
+}
+
+.EventBtn:hover {
+  transform: scale(1.1);
+}
+
+
+</style>
+
+
+<body style="background-color:#fff">
+
+<div th:replace="fragments/header::Main_header"></div>
+
+
+
+<div class="container mt-5" style="background-color:#fff; border-radius:3%;border:3px solid black">
+
+
+  <div class="w-100 mt-5 mb-5">
+
+      <form id="myForm" th:action="${debatePostDTO != null} ? @{/updateDebatePost} : @{/DebatePostCreate}" method="post" enctype="multipart/form-data">
+
+    <div class="d-flex justify-content-center">
+
+
+      <input type="hidden" name="debateArticleNo" th:if="${debatePostDTO != null}"
+             th:value="${debatePostDTO.debateArticleNo}">
+
+      <div class="col-8 rounded-3  m-1" style="height:auto; ">
+
+        <div class="align-items flex-column">
+
+            <div class="m-1">
+              <input type="text" class="form-control inputTag" name="DebateTitle"
+                     th:value="${debatePostDTO != null ? debatePostDTO.debateTitle : ''}"
+                     placeholder="제목을 입력해주세요."
+                     style="border-left-width:0; border-right-width:0;border-top-width:0;border-bottom-width:1; border : 2px solid black">
+            </div>
+
+
+          <div class="m-1 mt-3 mb-3">
+            <div class="d-flex justify-content-center text-center">
+              <div class="col-1">
+              </div>
+
+
+              <div class="col-2 m-2">
+                <div  class="w-100 rounded-3 DebateSelectCategory fw-bold EventBtn" data-value="LOL" style="height:30px;border : 2px solid black">LOL</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"  data-value="블랙박스" style="height:30px;border : 2px solid black">블랙박스</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"   data-value="일상" style="height:30px;border : 2px solid black">일상</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"  data-value="연애&결혼" style="height:30px;border : 2px solid black">연애&결혼</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div  class="w-100 rounded-3 DebateSelectCategory fw-bold EventBtn" data-value="자유" style="height:30px;border : 2px solid black">자유</div>
+              </div>
+
+              <div class="col-1">
+              </div>
+
+            </div>
+            <div class="d-flex justify-content-center text-center">
+              <div class="col-1">
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"  data-value="스포츠" style="height:30px;border : 2px solid black">스포츠</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"   data-value="금전" style="height:30px;border : 2px solid black">금전</div>
+              </div>
+
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"  data-value="법률" style="height:30px;border : 2px solid black">법률</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"  data-value="회사" style="height:30px;border : 2px solid black">회사</div>
+              </div>
+
+              <div class="col-2 m-2">
+                <div class="w-100 rounded-3  DebateSelectCategory fw-bold EventBtn"  data-value="학교" style="height:30px;border : 2px solid black">학교</div>
+              </div>
+
+              <div class="col-1">
+              </div>
+
+            </div>
+          </div>
+
+          <input type="hidden" id="DebateCategory" name="DebateCategory">
+
+
+
+          <div class="m-1">
+            <strong>상황 설명 (1000자 이내)</strong>
+            <div class="input-group">
+              <textarea rows="7" class="form-control inputTag"  name="DebateSituation"
+                        th:text="${debatePostDTO != null ? debatePostDTO.debateSituation : ''}"
+                        maxlength="1000"
+                        style="resize:none;background-color:#fff;border : 2px solid black" placeholder="상황을 상세하게 작성해주세요.">
+
+              </textarea>
+            </div>
+          </div>
+
+          <div class="m-1 mt-4">
+            <strong>A 논점 (200자 이내)</strong>
+            <input type="text" name="DebateContentTextA"
+                   th:value="${debatePostDTO != null ? debatePostDTO.debateContentTextA : ''}"
+                   maxlength="200"
+                   placeholder="A의 논점을 작성해주세요."
+                   class="form-control inputTag"  style="background-color:#fff;border : 2px solid black">
+          </div>
+
+          <div class="m-1 mt-4">
+            <strong>B 논점 (200자 이내)</strong>
+            <input type="text" name="DebateContentTextB"
+                   th:value="${debatePostDTO != null ? debatePostDTO.debateContentTextB : ''}"
+                   maxlength="200"
+                   placeholder="B의 논점을 작성해주세요."
+                   class="form-control inputTag" style="background-color:#fff;border : 2px solid black" >
+          </div>
+
+          <div class="m-1 mt-4">
+            <strong>사건 날짜</strong>
+            <input type="text" name="DebateStartDate" placeholder="ex) 2024-01-02"
+                   th:value="${debatePostDTO != null ? debatePostDTO.debateStartDate : ''}"
+                   class="form-control w-25 inputTag" style="background-color:#fff;border : 2px solid black" >
+
+          </div>
+
+
+          <div class="m-1 mt-4">
+            <strong>투표 진행 시간</strong>
+            <div class="d-flex justify-content-center mt-1">
+
+              <div class="col-3">
+                <div class="form-check">
+                  <input class="form-check-input timeRadioButton" style="border : 1px solid white;background-color:black"  type="radio" name="radioBtn" id="exampleRadios1"
+                         value="04:00"
+                         th:checked="${debatePostDTO != null && debatePostDTO.debateSelectTime == '04:00'}">
+                  <label class="form-check-label" for="exampleRadios1">
+                    4시간
+                  </label>
+                </div>
+
+              </div>
+
+              <div class="col-3">
+                <div class="form-check">
+                  <input class="form-check-input timeRadioButton" style="border : 1px solid white;background-color:black" type="radio"  name="radioBtn" id="exampleRadios2"
+                         value="08:00"
+                         th:checked="${debatePostDTO != null && debatePostDTO.debateSelectTime == '08:00'}">
+                  <label class="form-check-label" for="exampleRadios2">
+                    8시간
+                  </label>
+                </div>
+
+              </div>
+
+              <div class="col-3">
+                <div class="form-check">
+                  <input class="form-check-input timeRadioButton"style="border : 1px solid white;background-color:black"  type="radio"  name="radioBtn"  id="exampleRadios3"
+                         value="12:00"
+                         th:checked="${debatePostDTO != null && debatePostDTO.debateSelectTime == '12:00'}">
+                  <label class="form-check-label" for="exampleRadios3">
+                    12시간
+                  </label>
+                </div>
+
+              </div>
+
+              <div class="col-3">
+                <div class="form-check">
+                  <input class="form-check-input timeRadioButton"style="border : 1px solid white;background-color:black" type="radio"  name="radioBtn"  id="exampleRadios4"
+                         value="24:00"
+
+                         th:checked="${debatePostDTO != null && debatePostDTO.debateSelectTime == '24:00'}">
+                  <label class="form-check-label" for="exampleRadios4">
+                    24시간
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+          <input type="hidden" id="DebateSelectTime" name="DebateSelectTime">
+
+
+        </div>
+
+
+
+
+      </div>
+
+
+
+      <div class="col-4 rounded-3 m-1 " style="border : 3px solid black;">
+        <div class="align-items flex-column">
+
+          <div class="m-1 mt-3 " >
+            <div class="m-1" style="width: 25rem;">
+              <video id="videoPlayer" class="card-img-top" controls alt="..." style="height:200px"
+                     th:attr="src=${debatePostDTO != null ? debatePostDTO.debateContentVideoPath : ''}">
+              </video>
+
+
+              <div class="card-body" style="border : 2px solid black;">
+                <div id="customButton" class=" rounded-3  m-1 w-100 text-center fw-bold EventBtn" style="background-color:black; border : 2px solid black;color:white">동영상 선택</div>
+                <input type="file" id="videoFile" name="DebateContentVideoData"  class="w-100" style="display: none;" accept="video/*">
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="m-1 mt-5">
+            <strong>이미지</strong>
+            <div class="align-items flex-column">
+
+            <div class="mt-2">
+              <button id="selectImageBtn" type="button" class="fw-bold EventBtn" style="background-color:black ;border : 2px solid black;color:white">사진 업로드</button>
+
+              <th:block th:if="${debatePostDTO != null && debatePostDTO.debateContentImagePath != null}"
+                        th:with="fileName=${#strings.arraySplit(debatePostDTO.debateContentImagePath, '/')
+                        [#strings.arraySplit(debatePostDTO.debateContentImagePath, '/').length-1].substring(36)}">
+
+                <span  class="fileName" th:text="${fileName}">선택된 이미지가 없습니다 </span>
+              </th:block>
+              <th:block th:unless="${debatePostDTO != null && debatePostDTO.debateContentImagePath != null}">
+                <span class="fileName">선택된 이미지가 없습니다 </span>
+              </th:block>
+
+            </div>
+
+              <div class="mt-2">
+                <button id="selectImageBtn2" type="button" class="fw-bold EventBtn" style="background-color:black;border : 2px solid black;color:white">사진 업로드</button>
+
+
+                <th:block th:if="${debatePostDTO != null && debatePostDTO.debateContentImagePath2 != null}"
+                          th:with="fileName2=${#strings.arraySplit(debatePostDTO.debateContentImagePath2, '/')
+                        [#strings.arraySplit(debatePostDTO.debateContentImagePath2, '/').length-1].substring(36)}">
+
+                  <span id="fileName2" class="fileName2"th:text="${fileName2}"> 선택된 이미지가 없습니다 </span>
+                </th:block>
+                <th:block th:unless="${debatePostDTO != null && debatePostDTO.debateContentImagePath != null}">
+
+                  <span class="fileName2">선택된 이미지가 없습니다 </span>
+                </th:block>
+
+
+              </div>
+              <div class="mt-2">
+
+                <button id="selectImageBtn3" type="button" class="fw-bold EventBtn" style="background-color:black;border : 2px solid black;color:white">사진 업로드</button>
+
+                <th:block th:if="${debatePostDTO != null && debatePostDTO.debateContentImagePath3 != null}"
+                          th:with="fileName3=${#strings.arraySplit(debatePostDTO.debateContentImagePath3, '/')
+                        [#strings.arraySplit(debatePostDTO.debateContentImagePath3, '/').length-1].substring(36)}">
+
+                  <span id="fileName3" class="fileName3" th:text="${fileName3}"> 선택된 이미지가 없습니다 </span>
+                </th:block>
+                <th:block th:unless="${debatePostDTO != null && debatePostDTO.debateContentImagePath != null}">
+
+                  <span class="fileName3">선택된 이미지가 없습니다 </span>
+                </th:block>
+
+            </div>
+
+
+            </div>
+
+
+          </div>
+
+          <!-- 숨겨진 input 요소 -->
+          <input type="file" id="DebateContentImageData" name="DebateContentImageData" style="display: none;">
+          <input type="file" id="DebateContentImageData2" name="DebateContentImageData2" style="display: none;">
+          <input type="file" id="DebateContentImageData3" name="DebateContentImageData3" style="display: none;">
+
+
+          <div style="height:40px;">
+
+          </div>
+
+          <div class="mt-5">
+            <button th:if="${debatePostDTO == null}" type="button" class="w-100 submitBtn fw-bold EventBtn"  style="height:70px;background-color:black;border : 2px solid black;color:white">작성 완료</button>
+            <button th:unless="${debatePostDTO == null}" type="button" class="w-100 submitBtn fw-bold EventBtn"  style="height:70px;background-color:black;border : 2px solid black;color:white">수정 완료</button>
+            <button type="button" class="w-100 mt-1 fw-bold EventBtn" id="returnBtn"  style="height:70px;background-color:black;border : 2px solid black;color:white">돌아가기</button>
+
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+
+    </form>
+  </div>
+
+
+</div>
+
+
+
+
+<div th:replace="fragments/footer::footer"></div>
+
+
+<script
+        src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+<script th:inline="javascript">
+
+
+
+$('#returnBtn').click(function(){
+    window.history.back();
+})
+
+
+$('.submitBtn').click(function(){
+
+ let inputChk = false
+ let inputChk2 = false
+ let elements = document.getElementsByClassName('inputTag');
+ let elements2 = document.getElementsByClassName('timeRadioButton');
+
+
+  for(let i = 0; i < elements.length; i++){
+    if(elements[i].value.length == 0){
+      inputChk = false;
+      if(elements[i].name == 'DebateTitle'){
+        alert('제목을 입력해주세요.')
+      }else if(elements[i].name == 'DebateSituation'){
+        alert('상황 설명을 작성해주세요.')
+      }else if(elements[i].name == 'DebateContentTextA'){
+        alert('A의 논점을 작성해주세요.')
+      }else if(elements[i].name == 'DebateContentTextB'){
+        alert('B의 논점을 작성해주세요.')
+      }else if(elements[i].name == 'DebateStartDate'){
+        alert('발생 일자를 입력해주세요.')
+      }else{
+        alert('잠시 후에 다시 시도해주세요.')
+      }
+
+      break;
+    }else{
+      inputChk = true;
+    }
+  }
+
+
+  for(let i = 0; i < elements2.length; i++){
+    if(elements2[i].checked){
+      inputChk2 = true;
+      break;
+    }
+  }
+
+  if(inputChk2 == false){
+    alert('시간을 선택해주세요.')
+  }
+
+
+
+  if(inputChk == true && inputChk2 == true){
+    document.getElementById("myForm").submit();
+  }
+})
+
+
+
+
+let prevCategoryTarget = ""
+
+$(document).ready(function() {
+
+ $("#DebateCategory").val([[${DebateCategoryName}]]);
+ $("#DebateSelectTime").val('04:00');
+
+
+    var debatePostDTO = [[${debatePostDTO}]];
+
+console.log(debatePostDTO)
+    if(debatePostDTO != null){
+     var myValue = debatePostDTO.debateSelectTime
+
+      var radios = document.getElementsByClassName('timeRadioButton');
+    console.log(myValue)
+      Array.from(radios).forEach(radio => {
+        if (radio.value === myValue) {
+
+        console.log(radio.value)
+          radio.setAttribute('checked', true);
+          $("#DebateSelectTime").val(myValue);
+
+        } else {
+          radio.setAttribute('disabled', true);
+        }
+      });
+    }
+
+
+
+
+    $('.DebateSelectCategory').each(function() {
+        if ($(this).data('value') === [[${DebateCategoryName}]]) {
+
+            $(this).css({
+            'background-color': 'black',
+            'color': 'white'
+        });
+        }
+    });
+
+
+
+});
+
+
+    document.getElementById('selectImageBtn').addEventListener('click', function() {
+        document.getElementById('DebateContentImageData').click();
+    });
+
+    document.getElementById('selectImageBtn2').addEventListener('click', function() {
+        document.getElementById('DebateContentImageData2').click();
+    });
+
+    document.getElementById('selectImageBtn3').addEventListener('click', function() {
+        document.getElementById('DebateContentImageData3').click();
+    });
+
+    document.getElementById('DebateContentImageData').addEventListener('change', function() {
+        var fileNameSpan = document.getElementsByClassName('fileName');
+        console.log(fileNameSpan)
+        if (this.files.length === 0) {
+        console.log(1)
+             fileNameSpan[0].innerText = '선택된 이미지가 없습니다';
+        } else {
+          console.log(2)
+             fileNameSpan[0].innerText = this.files[0].name;
+        }
+    });
+
+        document.getElementById('DebateContentImageData2').addEventListener('change', function() {
+        var fileNameSpan = document.getElementsByClassName('fileName2');
+        if (this.files.length === 0) {
+             fileNameSpan[0].innerText = '선택된 이미지가 없습니다';
+        } else {
+             fileNameSpan[0].innerText = this.files[0].name;
+        }
+    });
+
+
+    document.getElementById('DebateContentImageData3').addEventListener('change', function() {
+        var fileNameSpan = document.getElementsByClassName('fileName3');
+        if (this.files.length === 0) {
+            fileNameSpan[0].innerText = '선택된 이미지가 없습니다';
+        } else {
+            fileNameSpan[0].innerText = this.files[0].name;
+        }
+    });
+
+
+
+       $(document).on('click','.timeRadioButton' ,function(e){
+
+        let selectTime = $(e.target).val()
+        $("#DebateSelectTime").val(selectTime);
+
+
+     })
+
+
+
+
+
+
+     $(document).on('click','.DebateSelectCategory' ,function(e){
+
+
+       $('.DebateSelectCategory').each(function() {
+                  $(this).css({
+                  'background-color': 'white',
+                  'color': 'black'
+              });
+          });
+
+      let selectCategory = $(e.target).data('value');
+      $("#DebateCategory").val(selectCategory);
+
+      $(e.target).css({
+            'background-color': 'black',
+            'color': 'white'
+        });
+
+     })
+
+
+
+    $('#customButton').click(function(){
+      document.getElementById('videoFile').click();
+
+    })
+
+
+ $('#videoFile').on('change', function(e) {
+    var file = e.target.files[0];
+    var url = URL.createObjectURL(file);
+    $('#videoPlayer').attr('src', url);
+
+
+});
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

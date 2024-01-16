@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<link href="../../static/bootstrap/css/bootstrap.min.css"
+      th:href="@{/bootstrap/css/bootstrap.min.css}"  rel="stylesheet" >
+<script src="../../static/bootstrap/js/bootstrap.bundle.min.js"
+        th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+
+<style>
+
+
+
+  a{
+   color:black;
+   text-decoration:none;
+  }
+.page-link {
+  color: black;
+  background-color: white;
+}
+
+.page-link:focus{
+  color: white;
+  background-color: black;
+  border-color: black;
+}
+
+.page-link:hover {
+  color: white;
+  background-color: grey;
+  border-color: black;
+}
+
+.page-link:active {
+  background-color: black;
+  color:white;
+}
+
+.page-link-selected {
+  background-color: black;
+  color: white;
+}
+
+
+.EventBtn {
+  transition: transform 0.3s ease;
+}
+
+.EventBtn:hover {
+  transform: scale(1.1);
+}
+
+
+
+</style>
+
+
+<body style="background-color:#fff">
+
+<div th:replace="fragments/header::Main_header"></div>
+
+
+<div class="container mt-5" style="background-color:#fff;;border : 3px solid black; border-radius:3%">
+
+
+  <div class="w-100 ">
+
+
+    <div class="align-items-start flex-column">
+
+
+      <div>
+
+        <div class="d-flex justify-content-center" >
+
+
+          <div class="col-2 m-1">
+            <div class="align-items-start flex-column ">
+
+              <span class="mt-1 m-1">
+
+              </span>
+              <div class="rounded-3  mb-3" style="height:165px; border : 3px solid black;">
+
+                <div class="align-items-start flex-column text-center">
+                  <div class="fw-bold mt-4">
+                    [[${DebateCategoryName}]] DebateBoard
+                  </div>
+
+                  <div class="mt-4">
+                    <button type="button" th:if="${#authentication.principal} == anonymousUser" class="w-75 EventBtn" style="color:white; background-color: black; border-radius:1%"> <a href="/user/login" style="text-decoration:none;color:white" class="fw-bold ">로그인</a></button>
+                    <button type="button" th:unless="${#authentication.principal} == anonymousUser" class="w-75 EventBtn" style="color:white; background-color: black; border-radius:1%"><a href="/MyPage" style="text-decoration:none;color:white" class="fw-bold"> 마이페이지</a></button>
+
+                  </div>
+
+                  <div class="mt-4">
+                    <div class="d-flex justify-content-center">
+
+                      <div class="col-6">
+                        <small th:if="${#authentication.principal} == anonymousUser"><a href="/registerPage" class="fw-bold">회원가입</a> </small>
+                        <small><a class="ms-2  fw-bold" th:unless="${#authentication.principal} == anonymousUser"
+                            th:href="@{/DebatePostCreatePage(DebateCategoryName=${DebateCategoryName})}"
+                            style="color:black">글 작성
+                        </a></small>
+
+
+                      </div>
+
+
+
+                      <div class="col-6">
+                        <small  th:if="${#authentication.principal} == anonymousUser" class="fw-bold"> ID/PW 찾기</small>
+                        <small th:unless="${#authentication.principal} == anonymousUser"><a href="/logout" class="fw-bold">로그아웃</a>  </small>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+
+
+
+              </div>
+              <div style="height:50px">
+              </div>
+              <div class="rounded-3  mt-1" style="height:auto;  border : 3px solid black;">
+
+                <div class="m-2 align-items-start flex-column">
+
+                  <div>
+                    <a href="#" class="mt-2"><strong>공지사항</strong></a>
+                  </div>
+                  <hr>
+
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='자유')}"   th:classappend="${DebateCategoryName} == '자유' ? 'fw-bold' : ''">자유 </a>
+                  </div>
+
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='LOL')}"   th:classappend="${DebateCategoryName} == 'LOL' ? 'fw-bold' : ''">LoL </a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='블랙박스')}"   th:classappend="${DebateCategoryName} == '블랙박스' ? 'fw-bold' : ''">블랙박스</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='일상')}"   th:classappend="${DebateCategoryName} == '일상' ? 'fw-bold' : ''">일상</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='연애&amp;결혼')}"   th:classappend="${DebateCategoryName} == '연애&amp;결혼' ? 'fw-bold' : ''">연애 & 결혼</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='스포츠')}"   th:classappend="${DebateCategoryName} == '스포츠' ? 'fw-bold' : ''">스포츠</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='금전')}"   th:classappend="${DebateCategoryName} == '금전' ? 'fw-bold' : ''">금전</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='법률')}"   th:classappend="${DebateCategoryName} == '법률' ? 'fw-bold' : ''">법률</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='회사')}"   th:classappend="${DebateCategoryName} == '회사' ? 'fw-bold' : ''">회사</a>
+                  </div>
+                  <div class="mb-2 EventBtn">
+                    <a  th:href="@{/DebateBoard(DebateCategoryName='학교')}"   th:classappend="${DebateCategoryName} == '학교' ? 'fw-bold' : ''">학교</a>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-8 m-1">
+            <div class="align-items-start flex-column">
+              <span class="mt-1 m-1">
+
+              </span>
+
+              <div class="rounded-3 mb-3 d-flex justify-content-center" style="height:auto; border : 3px solid black;">
+
+
+                <div class="col-12">
+
+                  <ul class="list-group" th:each="item ,stat: ${popularCategoryDebateDTO}">
+                    <li class="list-group-item mt-1"  style="background-color:#fff;height:50px;border-top : 0px">
+                      <div class="d-flex justify-content-start">
+
+                        <div class="col-7">
+                          <a class="fw-bold" th:href="@{/DebatePostPage(DebateArticleNo=${item.debateArticleNo})}" th:text="${item.debateTitle}"></a>
+                        </div>
+
+                        <div class="col-1" >
+                          <small class=" badge rounded-pill" style="background-color:black"    th:text="|작성자 : ${item.memberId}|"></small>
+                        </div>
+
+                        <div class="col-1 ms-5 ">
+                          <small class=" badge rounded-pill" style="background-color:black"   th:text="|조회수 : ${item.debatePostView}|"></small>
+                        </div>
+
+                        <div class="col-2 ms-4" >
+                          <div class=" badge rounded-pill" style="background-color:black">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="10" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                              <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                            <small  th:text="|${item.debateRunningTime} ${item.debateResult}|"></small>
+
+                          </div>
+                        </div>
+                        <div class="col-1">
+
+                        </div>
+
+
+                      </div>
+
+                    </li>
+                  </ul>
+
+                  <ul th:if="${#lists.isEmpty(popularCategoryDebateDTO)}" class="text-center">
+                        <div class="badge rounded-pill mt-3 " style=" background-color: black">
+                          <span>작성된 게시글이 없습니다.</span>
+                        </div>
+                  </ul>
+                </div>
+
+              </div>
+
+              <div class="rounded-3 mt-4 " style="height:50px; border : 3px solid black;border-bottom:0px">
+
+                <div class="d-flex justify-content-center text-center">
+
+                  <div class="col-6 DebateListOpt " data-value="진행중" style="background-color : black; color:white; height:50px">
+                    <span class="mt-5 fw-bold "  >진행 중인 분쟁</span>
+                  </div>
+
+                  <div class="col-6 DebateListOpt " data-value="종료"  style="background-color : white; color:black; height:50px">
+                    <span class="mt-5 fw-bold">종료 된 분쟁</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class=" rounded-3 mt-2 w-100" style="height:auto;border : 2px solid black;">
+
+                <div class="input-group">
+
+                    <button id="searchBtn" class="fw-bold w-100" style="background-color:black; color:white" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                      </svg> 게시글 검색하기
+                    </button>
+
+
+
+                </div>
+
+              </div>
+
+              <div class="rounded-3 mt-1"  style="height:auto; border : 3px solid black;">
+
+                <ul id="DebatePostPage" style="padding-left: 0">
+
+
+                </ul>
+
+                <div id="DebatePostPaging">
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="col-2 m-1 ">
+            <div class="align-items-start flex-column">
+              <span class="mt-1 m-1">
+
+              </span>
+              <div class="rounded-3 mb-2" style="height:auto; border : 3px solid black;">
+                <div>
+                <div class="text-center mt-3 ">
+                  <strong> 최근 북마크</strong>
+                </div>
+                <hr>
+                <div class="align-items-start flex-column"  th:each="item: ${debateBookMarkDTOS}" id="DebateBookMark">
+                  <div class="m-2 EventBtn">
+                    <small class="fw-bold" th:text="|[${item.debateCategory}]|"></small>
+                    <small><a th:href="@{/DebatePostPage(DebateArticleNo=${item.debateArticleNo})}"  th:text="${item.debateTitle}" style="color:black"></a></small>
+                  </div>
+                </div>
+                  <div class="mb-3" th:if="${#lists.isEmpty(debateBookMarkDTOS)}">
+                    <small class=" m-2 ms-4 fw-bold ">북마크를 추가해보세요.</small>
+                  </div>
+
+
+
+              </div>
+              </div>
+
+              <div class="rounded-3 mb-2" style="height:auto; border : 3px solid black;">
+                <div>
+                  <div class="text-center mt-3">
+                    <strong>인기 게시글</strong>
+                  </div>
+                  <hr>
+                  <div class="align-items-start flex-column" th:each="item : ${popularDebateDTO}">
+
+                    <div class="m-2 EventBtn">
+                      <small class="fw-bold" th:text="|[${item.debateCategory}]|"></small>
+                      <small><a th:href="@{/DebatePostPage(DebateArticleNo=${item.debateArticleNo})}"  th:text="${item.debateTitle}" style="color:black"></a></small>
+                    </div>
+
+                  </div>
+
+
+                  <div class="mb-3" th:if="${#lists.isEmpty(popularDebateDTO)}">
+                    <small class=" m-3 ms-3 fw-bold">작성된 게시글이 없습니다.</small>
+                  </div>
+
+
+
+                </div>
+
+              </div>
+
+              <div class="rounded-3  " style="height:auto; border : 3px solid black;">
+                <div>
+                  <div class="text-center mt-3 ">
+                    <strong> 최근 참여한 분쟁</strong>
+                  </div>
+                  <hr>
+                  <div class="align-items-start flex-column"  th:each="item: ${latestDebateDTO}" id="LatestDebate">
+                    <div class="m-2 EventBtn">
+                      <small class="fw-bold" th:text="|[${item.debateCategory}]|"></small>
+                      <small><a th:href="@{/DebatePostPage(DebateArticleNo=${item.debateArticleNo})}"  th:text="${item.debateTitle}" style="color:black"></a></small>
+                    </div>
+                  </div>
+
+                  <div class="mb-3" th:if="${#lists.isEmpty(latestDebateDTO)}">
+                    <small class=" m-3 ms-4 fw-bold">참여한 분쟁이 없습니다.</small>
+                  </div>
+
+
+
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+
+<div th:replace="fragments/footer::footer"></div>
+
+
+<script
+        src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+<script th:inline="javascript">
+
+
+let debateListOpt = '진행중'
+
+
+
+
+
+
+
+     $(document).on('click','.DebateTitle' ,function(e){
+
+      let articleNo = $(this).data('value'); // data-value 속성 가져오기
+
+      location.href = '/DebatePostPage?DebateArticleNo=' + articleNo;
+
+     })
+
+
+
+
+
+class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+
+        this.addComment = this.addComment.bind(this);
+    }
+
+    componentDidMount() {
+        this.getData(1,'진행중');
+    }
+
+    getData(page,opt){
+
+        const DebateCategoryName = [[${DebateCategoryName}]]
+
+        $.ajax({
+            url: '/SelectDebatePost',
+            method: 'GET',
+            contentType: 'application/json',
+            data: {
+              DebateCategoryName : DebateCategoryName,
+              debateResult : opt,
+              page : page
+
+            },
+            success: (data) => {
+                this.addComment(data);
+            },
+            error: (xhr, status, err) => {
+                alert('실패');
+            }
+        });
+
+    }
+
+
+
+    addComment(comment) {
+        this.setState({ data: [] });
+
+        this.setState(prevState => ({
+            data: [...prevState.data, comment]
+        }));
+    }
+
+
+ render() {
+
+  let elements = [];
+   if (!this.state.data[0] || this.state.data[0].length === 0) {
+
+     let element = React.createElement( 'li',{ className: "list-group-item mb-1 d-flex justify-content-center align-items-start", style: { backgroundColor: "#fff" }, key: 1 },
+        React.createElement('div',{ className: "align-items-start flex-column" },
+        React.createElement('div',{ className: "d-flex justify-content-center" },
+       React.createElement('div',{ className: "col-12 badge rounded-pill", style: { backgroundColor: "black" } },
+                    React.createElement('span',null,  "아직 작성된 글이 없습니다."  ))
+            ),
+              React.createElement('div',{ className: "col-12 badge rounded-pill mt-2", style: { backgroundColor: "black" } },
+                    React.createElement('span',null,  "첫번 째 글의 주인공이 되어보세요."))
+            )
+        )
+       elements.push(element);
+       return elements;
+
+
+    }
+
+
+  let data = this.state.data[0];
+
+
+
+for (let index = 0; index < data.length; index++) {
+    let item = data[index];
+
+    let element = React.createElement( 'li',{ className: "list-group-item mb-1 d-flex justify-content-between align-items-start", style: { backgroundColor: "#fff" }, key: index },
+        React.createElement( 'a',  { href: `/DebatePostPage?DebateArticleNo=${item.debateArticleNo}`, style: { color: "black", textDecoration: "none" } },
+            React.createElement('div',{ className: "ms-2 me-auto" },
+                React.createElement('div',{ className: "fw-bold" },`[${item.debateCategory}] ${item.debateTitle}`                ),
+                React.createElement('small',null,`${item.debateSituation}`)
+            )
+        ),
+        React.createElement('div',{ className: "align-items-start flex-column" },
+        React.createElement('div',{ className: "d-flex justify-content-end" },
+       React.createElement('div',{ className: "col-12 badge rounded-pill", style: { backgroundColor: "black" } },
+                    React.createElement('span',null,
+                        `작성자 : ${item.memberId}`
+                    )
+                )
+            ),
+              React.createElement( 'div', { className: "d-flex justify-content-end" },
+              React.createElement(  'div',  { className: "col-12 badge rounded-pill mt-2", style: { backgroundColor: "black" } },
+
+                React.createElement('span', {className: "ms-1 mt-5"}, `조회수 : ${item.debatePostView}` )
+              )
+            ),
+          React.createElement( 'div', { className: "d-flex justify-content-end" },
+              React.createElement(  'div',  { className: "col-12 badge rounded-pill mt-2", style: { backgroundColor: "black" } },
+                React.createElement(    'svg',   { xmlns: 'http://www.w3.org/2000/svg', width: '15', height: '15', fill: 'currentColor', viewBox: '0 0 16 16' },
+                  React.createElement('path', { d: 'M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z' }),
+                  React.createElement('path', { d: 'M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z' })
+                ),
+                React.createElement('span', {className: "ms-1 mb-0 mt-1"},   `${item.debateRunningTime}` ),
+                React.createElement('span', {className: "ms-1 mb-0 mt-1"},   `${item.debateResult}` )
+              )
+            ),
+            React.createElement( 'div', { className: "d-flex justify-content-end" },
+              React.createElement(  'div',  { className: "col-12 badge rounded-pill mt-2", style: { backgroundColor: "black" } },
+                React.createElement('span', {className: "ms-1 mt-5"},   `${item.debatePostDate}` )
+              )
+            ),
+
+
+            )
+        )
+
+    elements.push(element);
+}
+
+  return elements;
+  }
+
+}
+
+
+
+
+
+
+
+
+class PagingComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+
+        this.addComment = this.addComment.bind(this);
+    }
+
+    componentDidMount() {
+        this.getData(1,'진행중');
+    }
+
+    getData(page,opt){
+
+       const DebateCategoryName = [[${DebateCategoryName}]]
+
+        $.ajax({
+            url: '/SelectDebatePostPaging',
+            method: 'GET',
+            contentType: 'application/json',
+            data: {
+              DebateCategoryName : DebateCategoryName,
+              debateResult : opt,
+              page : page
+            },
+            success: (data) => {
+                this.addComment(data);
+            },
+            error: (xhr, status, err) => {
+                alert('실패');
+            }
+        });
+
+    }
+
+
+
+    addComment(comment) {
+        this.setState({ data: [] });
+
+        this.setState(prevState => ({
+            data: [...prevState.data, comment]
+        }));
+    }
+
+
+
+
+render() {
+    if (this.state.data.length === 0) {
+      return null;
+    }
+    console.log(this.state.data)
+
+    const { page, size, total, start, end, next, prev } = this.state.data[0];
+
+   if(total == 0){
+      return null;
+    }
+
+
+    const elements = [];
+
+    // 이전 버튼
+    if (prev) {
+        const prevButton = React.createElement('li', { key: 'prev', className: 'page-item' },
+            React.createElement('a', { className: 'page-link paging Boardpaging', 'data-num': start - 1 }, 'Previous')
+        );
+        elements.push(prevButton);
+    }
+
+    // 페이지 번호 버튼
+    for (let i = start; i <= end; i++) {
+        const pageButton = React.createElement('li', { key: i, id: i, onClick: this.handleClick },
+            React.createElement('a', {
+                className: `page-link paging ${page === i ? 'active' : ''} Boardpaging`,
+                'data-num': i,
+                style: page === i ? { backgroundColor: 'black', color: 'white' } : {}
+            }, i)
+        );
+
+        elements.push(pageButton);
+    }
+
+    // 다음 버튼
+    if (next) {
+        const nextButton = React.createElement('li', { key: 'next', className: 'page-item Boardpaging' },
+            React.createElement('a', { className: 'page-link paging', 'data-num': end + 1 }, 'Next')
+        );
+        elements.push(nextButton);
+    }
+
+    // 페이징 컴포넌트
+    const paginationComponent = React.createElement('div', { key: 'paginationComponent' },
+        React.createElement('nav', { 'aria-label': 'Page navigation example justify-content-center align-items-center' },
+            React.createElement('ul', { className: 'pagination justify-content-center' }, elements)
+        )
+    );
+
+    return paginationComponent;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+
+
+    const myComponentInstance = ReactDOM.render(
+        React.createElement(MyComponent, null),
+        document.getElementById('DebatePostPage')
+    );
+
+   const myComponentInstance2 = ReactDOM.render(
+        React.createElement(PagingComponent, null),
+        document.getElementById('DebatePostPaging')
+    );
+
+
+
+
+    $(document).on('click','.DebateListOpt' ,function(e){
+
+
+
+      debateListOpt = $(this).data('value')
+
+     $('.DebateListOpt').each(function() {
+
+            $(this).css({
+            'background-color': 'white',
+            'color':'black'
+        });
+
+    });
+
+      $(this).css({
+            'background-color': 'black',
+             'color':'white'
+        });
+        myComponentInstance2.getData(1,debateListOpt); // 페이징 데이터 변경
+        myComponentInstance.getData(1,debateListOpt) //댓글 데이터 변경
+
+    })
+
+
+
+
+    $(document).on('click','.Boardpaging' ,function(e){
+
+        const target = e.target;
+        const page = target.getAttribute("data-num")
+
+        myComponentInstance2.getData(page,debateListOpt); // 페이징 데이터 변경
+        myComponentInstance.getData(page,debateListOpt) //댓글 데이터 변경
+
+    });
+
+
+
+
+
+
+    $('#searchBtn').click(function(){
+      const DebateCategoryName = [[${DebateCategoryName}]]
+
+        window.open("DebateSearchList.html?DebateCategoryName=" + DebateCategoryName, "분쟁 검색", "width=1100, height=800, left=100, top=65");
+
+
+    })
+
+});
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

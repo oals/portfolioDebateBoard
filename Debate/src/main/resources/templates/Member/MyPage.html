@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout" >
+<head>
+
+    <link href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}"  rel="stylesheet" >
+    <script src="../../static/bootstrap/js/bootstrap.bundle.min.js"
+            th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+    <link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body style="background-color:#fff">
+<div th:replace="fragments/header::Main_header"></div>
+
+
+
+        <div class="container mt-5 mb-2 " style="background-color:#fff; border-radius:3%;border:3px solid black">
+
+            <div class="align-items flex-column">
+
+                <div class="d-flex justify-content-center">
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-10 ">
+                        <div class="align-items-start flex-column">
+                            <div class="m-4" style="background-color:#fff; border-radius:3%">
+
+                                <h5 class="text-start fw-bold">회원 정보</h5>
+                                <hr>
+
+                                <dl class="row mt-3">
+                                    <dt class="col-sm-2">아이디</dt>
+                                    <dd class="col-sm-10">[[${memberDTO.memberId}]]</dd>
+                                    <dt class="col-sm-2">이름</dt>
+                                    <dd class="col-sm-10"><p>[[${memberDTO.memberName}]]</p>
+                                    </dd>
+
+
+                                    <!--                                        <dt class="col-sm-2">생년월일</dt>-->
+                                    <!--                                        <dd class="col-sm-10">[[${memberDTO.memberDate}]]</dd>-->
+
+                                    <dt class="col-sm-2">전화번호</dt>
+                                    <dd class="col-sm-10"><p>[[${memberDTO.memberPhone}]]</p>
+                                    </dd>
+
+                                    <dt class="col-sm-2">주소</dt>
+                                    <dd class="col-sm-10"><p>[[${memberDTO.memberAddress}]]</p></dd>
+
+                                    <dt class="col-sm-2">승</dt>
+                                    <dd class="col-sm-10"><p>[[${debateCombatStatsDTO.memberDebateWinCount}]]회</p></dd>
+
+                                    <dt class="col-sm-2">패</dt>
+                                    <dd class="col-sm-10"><p>[[${debateCombatStatsDTO.memberDebateLoseCount}]]회</p></dd>
+
+                                    <dt class="col-sm-2">무</dt>
+                                    <dd class="col-sm-10"><p>[[${debateCombatStatsDTO.memberDebateDrawCount}]]회</p></dd>
+
+                                    <dt class="col-sm-2">승률</dt>
+                                    <dd class="col-sm-10"><p>[[${debateCombatStatsDTO.memberWinningPercent}]]%</p></dd>
+
+
+
+
+                                    <dt class="col-sm-2 text-truncate">가입 날짜</dt>
+                                    <dd class="col-sm-10" style="color:gray">[[${memberDTO.memberDate}]]</dd>
+                                </dl>
+
+
+                            </div>
+
+
+
+
+                            <div class="m-4 mt-5" style="background-color:#fff; border-radius:3%">
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="col-11">
+                                        <h5 class="text-start fw-bold">참여한 분쟁</h5>
+                                    </div>
+                                    <div class="col-1 nt-3">
+                                        <small class="text-end fw-bold"><a href="#"  id="latestDebateBtn" style="color:black;text-decoration:none">전체 보기</a></small>
+                                    </div>
+                                </div>
+                                <hr class="mt-0">
+
+                                    <div th:if="${#lists.isEmpty(latestDebateDTOS)}">
+                                        <div class="list-group-item mb-1 d-flex justify-content-center align-items-start" style="background-color: #fff;">
+                                            <div class="align-items-start flex-column">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="col-12 badge rounded-pill" style="background-color: black;">
+                                                        <span>참여한 분쟁이 없습니다.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                <ul style="padding-left:0" th:each="item : ${latestDebateDTOS}">
+                                    <li class="list-group-item mb-1 d-flex justify-content-start" style="background-color: #fff">
+                                        <div class="col-6">
+                                            <a th:href="@{/DebatePostPage(DebateArticleNo=${item.debateArticleNo})}" style="color: black; text-decoration: none">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold" th:text="|[${item.debateCategory}] ${item.debateTitle}|"></div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-2 ">
+                                            <div class="d-flex justify-content-end">
+                                                <div class="col-12 badge rounded-pill " style="background-color: black">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                                                    </svg>
+                                                    <span class="ms-1 mb-0 mt-1" th:text="${item.debateRunningTime}"> </span>
+                                                    <span class="ms-1 mb-0 mt-1" th:text="${item.debateResult}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2 ms-1">
+                                            <div class="d-flex justify-content-end">
+                                                <div class="col-12 badge rounded-pill " style="background-color: black">
+                                                    <span class="ms-1 mt-5" th:text="|조회수 : ${item.debatePostView}|"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2 ms-1">
+                                            <div class="d-flex justify-content-end">
+                                                <div class="col-12 badge rounded-pill " style="background-color: black">
+                                                    <span class="ms-1 mt-5" th:text="${item.debateVoteDate}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                            <div class="m-4 mt-5 mb-1" style="background-color:#fff; border-radius:3%">
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="col-11">
+                                        <h5 class="text-start fw-bold">내가 작성한 글</h5>
+                                    </div>
+                                    <div class="col-1 nt-3">
+                                        <small class="text-end fw-bold"  id="MyDebateListBtn">전체 보기</small>
+                                    </div>
+                                </div>
+
+                                <hr class="mt-0">
+
+                                <div th:if="${#lists.isEmpty(debatePostDTOList)}">
+                                    <div class="list-group-item mb-1 d-flex justify-content-center align-items-start" style="background-color: #fff;">
+                                        <div class="align-items-start flex-column">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="col-12 badge rounded-pill" style="background-color: black;">
+                                                    <span>작성된 글이 없습니다.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <ul style="padding-left:0" th:each="item : ${debatePostDTOList}">
+                                   <li class="list-group-item mb-1 d-flex justify-content-start" style="background-color: #fff">
+                                       <div class="col-6">
+                                           <a th:href="@{/DebatePostPage(DebateArticleNo=${item.debateArticleNo})}" style="color: black; text-decoration: none">
+                                               <div class="ms-2 me-auto">
+                                                   <div class="fw-bold" th:text="|[${item.debateCategory}] ${item.debateTitle}|"></div>
+                                               </div>
+                                           </a>
+                                       </div>
+
+                                         <div class="col-2 ">
+                                             <div class="d-flex justify-content-end">
+                                                 <div class="col-12 badge rounded-pill " style="background-color: black">
+                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" fill="currentColor" viewBox="0 0 16 16">
+                                                         <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                                                         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                                                     </svg>
+                                                     <span class="ms-1 mb-0 mt-1" th:text="${item.debateRunningTime}"> </span>
+                                                     <span class="ms-1 mb-0 mt-1" th:text="${item.debateResult}"></span>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                       <div class="col-2 ms-1">
+                                           <div class="d-flex justify-content-end">
+                                               <div class="col-12 badge rounded-pill " style="background-color: black">
+                                                   <span class="ms-1 mt-5" th:text="|조회수 : ${item.debatePostView}|"></span>
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-2 ms-1">
+                                           <div class="d-flex justify-content-end">
+                                               <div class="col-12 badge rounded-pill " style="background-color:black">
+                                                   <span class="ms-1 mt-5" th:text="${item.debatePostDate}"></span>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+                                   </li>
+
+                                   </ul>
+
+                            </div>
+
+                            <div class="m-4 mt-5 w-50" style="background-color:#fff; border-radius:3%">
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="col-10">
+                                        <h5 class="text-start fw-bold">북마크</h5>
+                                    </div>
+                                    <div class="col-2 nt-3">
+                                        <small class="text-end fw-bold"  id="MyBookMarkBtn">전체 보기</small>
+                                    </div>
+                                </div>
+
+                                <hr class="mt-0">
+
+
+                                <ul style="padding-left:0" id="MyBookMark">
+
+                                </ul>
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+            </div>
+            </div>
+        </div>
+
+
+<div th:replace="fragments/footer::footer"></div>
+
+</body>
+
+
+<script
+        src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+<script th:inline="javascript">
+
+
+
+    $('#deleteBookMark').click(function(e){
+
+        alert('삭제 버튼 클릭')
+
+
+
+
+
+    })
+
+
+
+    $('#latestDebateBtn').click(function(){
+
+     window.open("MyLatestDebate.html", "참여한 분쟁", "width=1100, height=1000, left=100, top=100");
+
+    })
+
+    $('#MyDebateListBtn').click(function(){
+
+     window.open("MyDebatePostList.html", "내가 작성한 글", "width=1100, height=1000, left=100, top=100");
+
+    })
+
+
+  $('#MyBookMarkBtn').click(function(){
+
+     window.open("MyBookMarkList.html", "내 북마크", "width=800, height=1000, left=100, top=100");
+
+    })
+
+
+
+
+class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+
+        this.addComment = this.addComment.bind(this);
+    }
+
+    componentDidMount() {
+        this.getData(1);
+    }
+
+
+     DeleteDate(articleNo){
+
+     $.ajax({
+            url: '/DeleteMyBookMark',
+            method: 'DELETE',
+            data :{
+             articleNo : articleNo
+            },
+             async: false,
+            success: (data) => {
+                alert('해당 북마크가 삭제되었습니다.')
+            },
+            error: (xhr, status, err) => {
+                alert('실패');
+            }
+        });
+
+    }
+
+    getData(page){
+
+        $.ajax({
+            url: '/MyPageMyBookMarkList',
+            method: 'GET',
+            data: {
+              page : page
+
+            },
+             async: false,
+            success: (data) => {
+                this.addComment(data);
+            },
+            error: (xhr, status, err) => {
+                alert('실패');
+            }
+        });
+
+    }
+
+
+
+    addComment(comment) {
+        this.setState({ data: [] });
+
+        this.setState(prevState => ({
+            data: [...prevState.data, comment]
+        }));
+    }
+
+
+ render() {
+
+  let elements = [];
+
+
+   if (!this.state.data[0] || this.state.data[0].length === 0) {
+   let element = React.createElement( 'li',{ className: "list-group-item mb-1 d-flex justify-content-center align-items-start", style: { backgroundColor: "#fff" }, key: 1 },
+        React.createElement('div',{ className: "align-items-start flex-column" },
+        React.createElement('div',{ className: "d-flex justify-content-center" },
+       React.createElement('div',{ className: "col-12 badge rounded-pill", style: { backgroundColor: "black" } },
+                    React.createElement('span',null,  "북마크가 비어있습니다."  ))
+            )
+            )
+        )
+       elements.push(element);
+       return elements;
+    }
+
+
+  let data = this.state.data[0];
+
+
+
+for (let index = 0; index < data.length; index++) {
+    let item = data[index];
+
+  let element = React.createElement('li',  {    key: index, className: 'list-group-item mb-1 d-flex justify-content-start',   style: { backgroundColor: '#fff' } }
+  , React.createElement('div', { className: 'col-6' },
+     React.createElement('a', { href: `/DebatePostPage?DebateArticleNo=${item.debateArticleNo}`,  style: { color: 'black', textDecoration: 'none' }},
+      React.createElement('div', { className: 'ms-2 me-auto' },
+          React.createElement('div', { className: 'fw-bold' }, `[${item.debateCategory}] ${item.debateTitle}`)
+        )
+      )
+    ),
+
+    React.createElement('div', { className: 'col-6 ms-1' },
+      React.createElement('div', { className: 'd-flex justify-content-end' },
+        React.createElement('div', { className: 'col-6 badge rounded-pill', style: { backgroundColor: 'black' } },
+         React.createElement('span',  {  className: 'ms-1 mt-5 delBookMark','data-value': `${item.debateArticleNo}`  },   '삭제' )
+      )
+    )
+  )
+  )
+
+    elements.push(element);
+}
+
+  return elements;
+  }
+
+}
+
+
+
+
+$(document).ready(function() {
+
+
+    const myComponentInstance = ReactDOM.render(
+        React.createElement(MyComponent, null),
+        document.getElementById('MyBookMark')
+    );
+
+
+  $(document).on('click','.delBookMark' ,function(e){
+
+    let chk = confirm('해당 북마크 기록을 삭제하시겠습니까?')
+    if(chk){
+
+        const target = e.target;
+        const articleNo = target.getAttribute("data-value")
+
+        myComponentInstance.DeleteDate(articleNo)
+        myComponentInstance.getData(1) //댓글 데이터 변경
+
+        }
+  })
+
+
+});
+
+
+
+
+
+</script>
+
+
+</html>
