@@ -40,16 +40,124 @@
  </summary> 
  
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @Builder
+    @Entity
+    @Table(name="member")
+    public class Member {
+
+    @Id
+    @Column(nullable = false,length = 50,name="member_id")
+    private String memberId;
+
+    private String memberPswd;
+    private String memberName;
+    private String memberPhone;
+    private String memberAddress;
+
+    private int memberDebateWinCount;       //분쟁의 승리를 맞춘 수
+    private int memberDebateLoseCount;      //분쟁의 승리를 맞추지 못한 수
+    private int memberDebateDrawCount;      //분쟁의 무승부 수
+
+    private Double memberWinningPercent;    //승률
+    private String memberDate;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;  //권한 설정
+
+
+    public static Member createMember(MemberDTO memberDTO, PasswordEncoder passwordEncoder){
+
+        Member member = new Member();
+        member.setMemberId(memberDTO.getMemberId());
+        member.setMemberName(memberDTO.getMemberName());
+        member.setMemberPhone(memberDTO.getMemberPhone());
+        member.setMemberAddress(memberDTO.getMemberAddress());
+        member.setMemberDebateWinCount(memberDTO.getMemberDebateWinCount());
+        member.setMemberDebateLoseCount(memberDTO.getMemberDebateLoseCount());
+        member.setMemberDebateDrawCount(memberDTO.getMemberDebateDrawCount());
+        member.setMemberWinningPercent(memberDTO.getMemberWinningPercent());
+        member.setMemberDate(memberDTO.getMemberDate());
+        member.setRole(Role.USER);
+
+        // 암호화
+        String password = passwordEncoder.encode(memberDTO.getMemberPswd());
+        member.setMemberPswd(password);
+
+        return member;
+    }
+
+
+
+    }
 
 
 </details>
 
 
 <details>
- <summary> BookRentalHistory Entity
+ <summary> DebatePost Entity
  
  </summary> 
  
+
+    @Entity
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public class DebatePost {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "debate_article_no")
+    private Long debateArticleNo;
+    private String debateTitle;     //제목
+
+    @Column(length = 1000)
+    private String debateSituation; //상황 설명
+    private String debateCategory;  //카테고리
+    @Column(length = 200)
+    private String debateContentTextA;  //A의 논점
+    @Column(length = 200)
+    private String debateContentTextB;  //B의 논점
+    private String debateStartDate;     //상황 발생일
+
+    private String debateSelectTime;    //분쟁 게시글의 선택된 스레드 시간
+
+    private String debateRunningTime;   //현재 스레드의 시간
+
+    private int debatePostView;     //조회수
+    private String debatePostDate;      //게시물 자성일
+    private String debateResult;        //분쟁 결과
+    private Boolean debateState;        //분쟁 상태
+
+    private int aVotes;             //A의 득표수
+    private int bVotes;             //B의 득표수
+    private String debateWinner;       //승리한 논점
+
+    @OneToOne(mappedBy = "debatePost", cascade=CascadeType.ALL, orphanRemoval=true , fetch = FetchType.LAZY)
+    private DebatePostImage debatePostImage;    //포스트 이미지
+
+    @OneToMany(mappedBy = "debatePost", cascade=CascadeType.ALL, orphanRemoval=true ,fetch = FetchType.LAZY)
+    private List<DebateComment> debateComments = new ArrayList<>(); //포스트 댓글
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;  //작성자
+
+
+    @OneToMany(mappedBy = "debatePost", cascade=CascadeType.ALL, orphanRemoval=true ,fetch = FetchType.LAZY)
+    private List<DebatePostProsAndCons> postProsAndCons = new ArrayList<>();    //포스트의 A 혹은 B 투표 현황
+
+
+
+
+    }
 
 
 
@@ -59,61 +167,177 @@
 
 
 <details>
- <summary> BookRentalReturnHistory Entity
+ <summary> DebatePostImage Entity
  
  </summary> 
  
 
+
+    @Entity
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Getter
+    @Setter
+    public class DebatePostImage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long debatePostImageNo;
+
+    private String debateContentVideoPath;  //영상 주소
+    private String debateContentImagePath;  //이미지 주소
+    private String debateContentImagePath2; //이미지 주소2
+    private String debateContentImagePath3; //이미지 주소3
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "debate_article_no")
+    private DebatePost debatePost;      //해당 포스트
+
+
+
+    }
 
 
 
 </details>
 
 
+
 <details>
- <summary> BookLikeHistory Entity
+ <summary> DebatePostProsAndCons Entity
+
+
+ 
+ </summary> 
+ 
+
+    @Entity
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public class DebatePostProsAndCons {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pros_and_cons_no")
+    private Long prosAndConsNo;
+
+
+    private String debateVoteState; //사용자가 투표한 A 혹은 B
+
+    private String debateVoteDate;  //투표 버튼을 누른 날짜
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;          //투표를 한 사용자
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "debate_article_no")
+    private DebatePost debatePost;      //투표 된 게시물
+
+
+
+
+
+    }
+
+
+
+</details>
+
+
+
+
+<details>
+ <summary> DebateComment Entity
  
  </summary> 
 
 
+
+    @Entity
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Getter
+    @Setter
+    public class DebateComment {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="debate_comment_no")
+    private Long debateCommentNo;
+    private String debatePostComment;   //댓글 내용
+    @Nullable
+    private Long debatePostCommentParent;   //부모 댓글 (사용하지 않았음)
+
+    private String debatePostCommentDate;   //댓글 작성일
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;                  //작성자
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "debate_article_no")
+    private DebatePost debatePost;      //댓글이 작성된 포스트
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "pros_and_cons_no")
+    private DebatePostProsAndCons debatePostProsAndCons;    //작성자의 투표 현황
+
+    @OneToMany(mappedBy = "debateComment",cascade=CascadeType.ALL, orphanRemoval=true ,fetch = FetchType.LAZY)
+    List<DebateCommentLike> debateCommentLikeList = new ArrayList<>();  //작성자가 받은 댓글 공감 수
+
+
+
+
+    }
+
+
+ 
  
 
 </details>
 
 
 <details>
- <summary> BookHopeHistory Entity
-
-
- 
- </summary> 
- 
-
-
-
-</details>
-
-
-
-
-<details>
- <summary> BookInfo Entity
+ <summary> DebateCommentLike Entity
  
  </summary> 
 
 
- 
- 
+    
+    @Entity
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public class DebateCommentLike {
 
-</details>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long debateCommentLikeNo;
 
 
-<details>
- <summary> StudyRoomHistory Entity
- 
- </summary> 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;      //공감 버튼을 누른 유저
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="debate_comment_no")
+    private DebateComment debateComment;    //해당 공감 버튼의 댓글
+
+
+    }
 
 
 
@@ -127,13 +351,37 @@
 
 
 <details>
- <summary> StudyRoomState Entity
+ <summary> DebateBookMark Entity
  
  </summary> 
 
 
 
+    @Entity
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class DebateBookMark {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long debateBookMarkNo;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;  //북마크한 회원 정보
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "debate_article_no")
+    private DebatePost debatePost;  //북마크한 포스트
+
+
+
+
+    }
 
  
 </details>
