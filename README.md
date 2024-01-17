@@ -452,15 +452,6 @@
 
 
 
-<details>
- <summary> 분쟁 게시판 Service 코드
- 
- </summary> 
-
-
-
-</details>
-
 
 
 
@@ -501,7 +492,63 @@
  검색 Service
  </summary> 
  
+       @Override
+        public List<DebatePostDTO> SelectSearchDebatePost(String debateSearchOpt,String debateSearchData,String debateCategoryName, PageRequestDTO pageRequestDTO) {
 
+        Pageable pageable = pageRequestDTO.getPageable();
+        BooleanBuilder builder = new BooleanBuilder();
+
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QDebatePost qDebatePost = QDebatePost.debatePost;
+
+        if(debateSearchOpt.equals("전체 검색")){
+            builder.and(qDebatePost.debateTitle.contains(debateSearchData)
+                    .or(qDebatePost.debateSituation.contains(debateSearchData)));
+        }else if(debateSearchOpt.equals("제목")) {
+            builder.and(qDebatePost.debateTitle.contains(debateSearchData));
+        }else{
+            builder.and(qDebatePost.debateSituation.contains(debateSearchData));
+        }
+
+
+        List<DebatePost> query = queryFactory.selectFrom(qDebatePost)
+                .where(builder
+                        .and(qDebatePost.debateCategory.eq(debateCategoryName)))
+                .orderBy(qDebatePost.debatePostDate.desc())
+                .offset(pageable.getOffset())   //N 번부터 시작
+                .limit(pageable.getPageSize()) //조회 갯수
+                .fetch();
+
+        List<DebatePostDTO> debatePostDTOList = new ArrayList<>();
+
+
+
+        for(int i = 0; i < query.size(); i++){
+
+            DebatePostDTO debateCommentDTO = DebatePostDTO.builder()
+                    .memberId(query.get(i).getMember().getMemberId())
+                    .debateArticleNo(query.get(i).getDebateArticleNo())
+                    .debateTitle(query.get(i).getDebateTitle())
+                    .debateCategory(query.get(i).getDebateCategory())
+                    .debateRunningTime(query.get(i).getDebateRunningTime())
+                    .debateSituation(query.get(i).getDebateSituation().length() < 100
+                            ? query.get(i).getDebateSituation() : query.get(i).getDebateSituation().substring(0,100) + "...")
+                    .debatePostView(query.get(i).getDebatePostView())
+                    .debatePostDate(query.get(i).getDebatePostDate())
+                    .debateResult(query.get(i).getDebateResult())
+                    .debateState(query.get(i).getDebateState())
+                    .build();
+
+            debatePostDTOList.add(debateCommentDTO);
+        }
+
+
+        return debatePostDTOList;
+
+
+
+      }
 
 
     
@@ -540,16 +587,6 @@
 </details>
 
 
-<details> 
- <summary> 
- 포스트 작성 Service
- </summary> 
- 
-
-
-
-    
-</details>
 
 
 <UL>
@@ -587,10 +624,38 @@
 
 <details> 
  <summary> 
- 포스트 이미지 저장 Service
+ 포스트 이미지 업로드 Service
  </summary> 
  
 
+     @Override
+      public String uploadFile(String uploadPath, String originalFileName, byte[] fileDate) {
+
+        UUID uuid = UUID.randomUUID();
+
+        String savedFileName = uuid + originalFileName; // 난수에 확장자 붙이기
+        String fileUploadFullUrl = uploadPath + "/"+ savedFileName;
+
+        String fileUrl = fileUploadFullUrl.replace("c:/Debate/Board/","/images/");
+
+
+        // 결과 : 업로드할 경로 + / + uuid값 + .파일확장자
+
+        try {
+            FileOutputStream fos = new FileOutputStream(fileUploadFullUrl);
+            fos.write(fileDate);
+            fos.close();
+        }catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //업로드 완료
+        return fileUrl;
+
+
+      }
 
 
     
@@ -628,17 +693,6 @@
 </details>
 
 
-<details>
- <summary> 
- 포스트 Service
- </summary> 
- 
-
-
-
-    
-</details>
-
 
 <UL>
   <LI>현재 남은 투표 가능 시간을 하단에 배치 하였습니다.</LI>
@@ -675,6 +729,92 @@
  </summary> 
  
 
+    public class MyRunnable implements Runnable {
+        private final Long debateArticleNo;
+        private boolean threadChk;
+
+
+        public MyRunnable(Long debateArticleNo) {
+            this.debateArticleNo = debateArticleNo;
+            this.threadChk = true;
+        }
+
+        @Override
+        public void run() {
+            while(threadChk) {
+
+                try {
+                    Thread.sleep(60000);
+
+                    JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+                    QDebatePost qDebatePost = QDebatePost.debatePost;
+
+                    DebatePost debatePost = queryFactory.selectFrom(qDebatePost)
+                            .leftJoin(qDebatePost.postProsAndCons).fetchJoin()
+                            .where(qDebatePost.debateArticleNo.eq(debateArticleNo))
+                            .fetchOne();
+
+                    if(debatePost == null){
+                        log.info("삭제된 글");
+                        threadChk = false;
+                        return;
+                    }
+
+                    LocalTime time = LocalTime.parse(debatePost.getDebateRunningTime());
+
+                    if(time.toString().equals("00:00")){
+
+                        threadChk = false;
+                        log.info("스레드 종료");
+
+                        int a = 0;
+                        int b = 0;
+
+                        Map<String,String> memberNameMap = new HashMap<>();
+
+
+                        for(int i = 0; i < debatePost.getPostProsAndCons().size(); i++ ){
+                            if(debatePost.getPostProsAndCons().get(i).getDebateVoteState().toString().equals("A")){
+                                a += 1;
+                                memberNameMap.put(debatePost.getPostProsAndCons().get(i).getMember().getMemberId(),debatePost.getPostProsAndCons().get(i).getDebateVoteState().toString());
+                            }else{
+                                b += 1;
+                                memberNameMap.put(debatePost.getPostProsAndCons().get(i).getMember().getMemberId(),debatePost.getPostProsAndCons().get(i).getDebateVoteState().toString());
+                            }
+                        }
+
+                        //투표한 유저들의 승률 작업
+
+                        String result =  a > b ? "A" : a < b ? "B" : "D";
+                        memberService.updateMemberDebateWinningPercent(memberNameMap,result);
+
+
+
+                        //투표 결과 저장
+                        debatePost.setAVotes(a);
+                        debatePost.setBVotes(b);
+                        debatePost.setDebateWinner(a > b ? "A의 승리 입니다." : a < b ? "B의 승리 입니다." : "무승부 입니다.");
+                        debatePost.setDebateResult("종료");
+                        debateBoardRepository.save(debatePost);
+
+
+
+
+
+                    }else {
+                        time = time.minusMinutes(1);
+                        debatePost.setDebateRunningTime(String.valueOf(time));
+                        debateBoardRepository.save(debatePost);
+                    }
+
+
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
 
 
 
@@ -723,11 +863,11 @@
 <br>
 <details>
  <summary> 포스트 수정 플로우 차트
-   
- ![포스트 수정 플로우 차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/dff72e41-e2de-495b-8d5a-c7c520369959)
 
  </summary> 
  
+   
+ ![포스트 수정 플로우 차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/dff72e41-e2de-495b-8d5a-c7c520369959)
 
 </details>
 
@@ -738,7 +878,46 @@
  </summary> 
  
 
+       @Override
+      public void updateDebatePost(DebatePostDTO debatePostDTO) {
 
+
+        DebatePost debatePost = debateBoardRepository.findById(debatePostDTO.getDebateArticleNo())
+                .orElseThrow(() -> new EntityNotFoundException());
+
+        // 변경된 데이터만 저장
+        if (!debatePost.getDebateTitle().equals(debatePostDTO.getDebateTitle())) {
+            debatePost.setDebateTitle(debatePostDTO.getDebateTitle());
+        }
+
+        if (!debatePost.getDebateSituation().equals(debatePostDTO.getDebateSituation())) {
+            debatePost.setDebateSituation(debatePostDTO.getDebateSituation());
+        }
+
+        if (!debatePost.getDebateContentTextA().equals(debatePostDTO.getDebateContentTextA())) {
+            debatePost.setDebateContentTextA(debatePostDTO.getDebateContentTextA());
+        }
+
+        if (!debatePost.getDebateContentTextB().equals(debatePostDTO.getDebateContentTextB())) {
+            debatePost.setDebateContentTextB(debatePostDTO.getDebateContentTextB());
+        }
+
+        if (!debatePost.getDebateStartDate().equals(debatePostDTO.getDebateStartDate())) {
+            debatePost.setDebateStartDate(debatePostDTO.getDebateStartDate());
+        }
+
+        if (!debatePost.getDebateCategory().equals(debatePostDTO.getDebateCategory())) {
+            debatePost.setDebateCategory(debatePostDTO.getDebateCategory());
+        }
+
+        if (!debatePost.getDebateSelectTime().equals(debatePostDTO.getDebateSelectTime())) {
+            debatePost.setDebateSelectTime(debatePostDTO.getDebateSelectTime());
+        }
+
+
+        debateBoardRepository.save(debatePost);
+
+      }
 
 
 </details>
@@ -764,16 +943,6 @@
 <br>
 
 
-<details>
- <summary> 포스트 삭제 Service 코드
- 
- </summary> 
- 
-
-
-
-
-</details>
 
 
 <UL>
@@ -814,7 +983,45 @@
  
 
 
+      @Override
+      public void InsertDebateComment(DebateCommentDTO debateCommentDTO) {
 
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QDebatePostProsAndCons qDebatePostProsAndCons = QDebatePostProsAndCons.debatePostProsAndCons;
+
+
+        Member member = Member.builder()
+                .memberId(debateCommentDTO.getMemberId())
+                .build();
+
+        DebatePost debatePost = DebatePost.builder()
+                .debateArticleNo(debateCommentDTO.getDebateArticleNo())
+                .build();
+
+
+        DebatePostProsAndCons debatePostProsAndCons = queryFactory.selectFrom(qDebatePostProsAndCons)
+                .where(qDebatePostProsAndCons.debatePost.debateArticleNo.eq(debateCommentDTO.getDebateArticleNo())
+                        .and(qDebatePostProsAndCons.member.memberId.eq(debateCommentDTO.getMemberId())))
+                .fetchOne();
+
+
+        DebateComment debateComment = DebateComment.builder()
+                .debatePostComment(debateCommentDTO.getDebatePostComment())
+                .debatePostCommentDate(debateCommentDTO.getDebatePostCommentDate())
+                .debatePostCommentParent(debateCommentDTO.getDebatePostCommentParent())
+                .debatePost(debatePost)
+                .debatePostProsAndCons(debatePostProsAndCons)
+                .member(member)
+                .build();
+
+
+
+
+        debateCommentRepository.save(debateComment);
+
+
+      }  
     
 </details>
 
@@ -843,16 +1050,6 @@
 
 
 
-<details>
- <summary> 
- 카테고리 Service 
- </summary> 
- 
-
-
-
-    
-</details>
 
 
 <UL>
@@ -876,17 +1073,6 @@
 <br>
 
 
-
-<details>
- <summary> 
- 마이페이지 Service
- </summary> 
- 
-
-
-
-    
-</details>
 
 
 <UL>
@@ -912,16 +1098,6 @@
 <br>
 
 
-<details>
- <summary> 
- 북마크 Service
- </summary> 
- 
-
-
-
-    
-</details>
 
 
 <UL>
@@ -934,30 +1110,7 @@
 
 
 
-<h3>회원가입&로그인</h3>
-<br>
 
-
-
-<br>
-<br>
-<details>
- <summary> 회원가입 플로우 차트
- 
- </summary> 
- 
-
-</details>
-
-
-<UL>
-  <LI>정규 표현식을 사용하여 생년월일과 전화번호의 잘못된 입력을 방지하였습니다. </LI>
- <LI>우편 번호 API를 사용하여 주소를 검색 할 수 있도록 구현했습니다. </LI>
-</UL>
-
-
-<br>
-<br>
 
 # 프로젝트를 통해 느낀 점과 소감
 
