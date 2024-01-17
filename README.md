@@ -521,7 +521,8 @@
 <h3>포스트 작성</h3>
 <br>
 
-<img src='https://github.com/oals/portfolioDebateBoard/assets/136543676/018a5c4c-b570-4513-ac06-5a12b89623a4' width='1000px'>
+
+![글 작성](https://github.com/oals/portfolioDebateBoard/assets/136543676/3802ce18-459e-4cc5-bba9-1beb4f98ab9d)
 
 
 <br>
@@ -726,6 +727,8 @@
 <h3>포스트 수정</h3>
 <br>
 
+![수정](https://github.com/oals/portfolioDebateBoard/assets/136543676/fccf1946-5b5c-4cb0-99f2-61c0fe510e56)
+
 <br>
 <br>
 <details>
@@ -762,6 +765,8 @@
 
 <h3>포스트 삭제</h3>
 <br>
+
+![삭제](https://github.com/oals/portfolioDebateBoard/assets/136543676/5d1269dd-436b-485c-bb61-74439573c95c)
 
 <br>
 <br>
@@ -883,6 +888,8 @@
 <br>
 
 ![마이페이지](https://github.com/oals/portfolioDebateBoard/assets/136543676/fab15567-44f8-4665-8634-83b7fef38ab8)
+
+
 
 <br>
 <br>
