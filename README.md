@@ -534,7 +534,9 @@
  </summary> 
 
 
- 
+ ![포스트 작성 플로우차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/4d745013-2a0b-416a-ba74-feb0636006d3)
+
+
 </details>
 
 
@@ -577,6 +579,7 @@
  포스트 이미지 저장 플로우 차트
  </summary> 
 
+![이미지 파일 저장 플로우차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/3e79e065-23ae-4d7d-86db-5e9ba4858840)
 
  
 </details>
@@ -619,7 +622,9 @@
  <summary> 
  포스트 플로우 차트
  </summary> 
- 
+  
+ ![포스트 플로우 차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/7850f49a-0e76-43fa-bc6e-2c6bb19d2bc2)
+
 </details>
 
 
@@ -658,6 +663,8 @@
  
  </summary> 
  
+ ![스레드 플로우차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/2843e7c6-fb36-40b2-92b6-0c84f7f09c5b)
+
 
 </details>
 
@@ -693,24 +700,7 @@
 <br>
 <br>
 
-<details>
- <summary> 
- 포스트 (투표 종료) 플로우 차트
- </summary> 
- 
-</details>
 
-
-<details>
- <summary> 
-  포스트 (투표 종료) Service
- </summary> 
- 
-
-
-
-    
-</details>
 
 
 <UL>
@@ -733,7 +723,9 @@
 <br>
 <details>
  <summary> 포스트 수정 플로우 차트
- 
+   
+ ![포스트 수정 플로우 차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/dff72e41-e2de-495b-8d5a-c7c520369959)
+
  </summary> 
  
 
@@ -770,13 +762,6 @@
 
 <br>
 <br>
-<details>
- <summary>  포스트 삭제 플로우 차트
- 
- </summary> 
- 
-
-</details>
 
 
 <details>
@@ -854,12 +839,6 @@
 <br>
 <br>
 
-<details>
- <summary> 
- 카테고리 플로우 차트
- </summary> 
- 
-</details>
 
 
 <details>
@@ -894,12 +873,6 @@
 <br>
 <br>
 
-<details>
- <summary> 
- 마이페이지 플로우 차트
- </summary> 
- 
-</details>
 
 
 <details>
@@ -935,13 +908,6 @@
 
 <br>
 <br>
-
-<details>
- <summary> 
- 북마크 플로우 차트
- </summary> 
- 
-</details>
 
 
 <details>
