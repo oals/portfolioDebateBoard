@@ -801,7 +801,9 @@
  <summary> 
  댓글 플로우 차트
  </summary> 
- 
+  
+ ![댓글 플로우 차트](https://github.com/oals/portfolioDebateBoard/assets/136543676/6d326140-2320-4a19-83ef-82d9d4492e54)
+
 </details>
 
 
